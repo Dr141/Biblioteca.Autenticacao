@@ -17,3 +17,4 @@
                 .AddEntityFrameworkStores<IdentityDataContext>()
                 .AddDefaultTokenProviders();`.
 - Registra a dependencia `services.AddScoped<IIdentityService, IdentityService>();`.
+- Executar o comando `Add-Migration Inicial_Identity -context IdentityDataContext` para criar a migração inicial.
