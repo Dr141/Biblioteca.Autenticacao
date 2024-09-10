@@ -2,6 +2,9 @@
 
 namespace Identity.Infraestrutura.Configurations;
 
+/// <summary>
+/// Classe base das configurações do Jwt.
+/// </summary>
 public class JwtOptions
 {
     public string Issuer { get; set; }

@@ -18,6 +18,7 @@ public class IdentityService : IIdentityService
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly JwtOptions _jwtOptions;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
     /// <summary>
     /// Contrutor para inciar a classe <see cref="IdentityService"/>
@@ -28,11 +29,13 @@ public class IdentityService : IIdentityService
     /// <param name="jwtOptions">Augarda um objeto <see cref="IOptions"/> do tipo <see cref="JwtOptions"/></param>
     public IdentityService(SignInManager<IdentityUser> signInManager,
                            UserManager<IdentityUser> userManager,
-                           IOptions<JwtOptions> jwtOptions)
+                           IOptions<JwtOptions> jwtOptions,
+                           RoleManager<IdentityRole> roleManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _jwtOptions = jwtOptions.Value;
+        _roleManager = roleManager;
     }
 
     /// <summary>
@@ -78,6 +81,7 @@ public class IdentityService : IIdentityService
 
         if (user is IdentityUser)
         {
+            await _userManager.RemovePasswordAsync(user);
             var result = await _userManager.AddPasswordAsync(user, usuarioLoginAtualizarSenha.Senha);
             var usuarioResponse = new UsuarioCadastroResponse(result.Succeeded);
 
@@ -107,11 +111,12 @@ public class IdentityService : IIdentityService
 
         if (user is IdentityUser)
         {
+            if (!await _roleManager.RoleExistsAsync(nameof(usuarioPermisao.Roles))) 
+                await _roleManager.CreateAsync(new IdentityRole(nameof(usuarioPermisao.Roles)));
+
             var rolesAtual = await _userManager.GetRolesAsync(user);
             if(rolesAtual is IList<string> && rolesAtual.Any())
-            {
                 await _userManager.RemoveFromRolesAsync(user, rolesAtual);
-            }
 
             var result = await _userManager.AddToRoleAsync(user, nameof(usuarioPermisao.Roles));
             var usuarioResponse = new UsuarioCadastroResponse(result.Succeeded);
