@@ -74,7 +74,7 @@
                     policy.Requirements.Add(new HorarioComercialRequirement()));
             });
 - Exemplo de configuração no Swagger
- -          services.AddEndpointsApiExplorer();
+   -        services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
@@ -113,3 +113,4 @@
                     }
                 });
             });
+  - Também é necessário acrescentar o `app.UseAuthentication();` no arquivo de inicialização do serviço.
