@@ -18,5 +18,6 @@
                  .AddEntityFrameworkStores<IdentityDataContext>()
                  .AddDefaultTokenProviders();.
 - Registra a dependencia `services.AddScoped<IIdentityService, IdentityService>();`.
-- Executar o comando `Add-Migration Inicial_Identity -context IdentityDataContext` para criar a migração inicial.
+<!-- - Executar o comando `Add-Migration Inicial_Identity -context IdentityDataContext` para criar a migração inicial.
 - Usar o projeto [Web Authetication](https://github.com/Dr141/Web.Authetication) como exemplo de configuração da biblioteca.
+-->
